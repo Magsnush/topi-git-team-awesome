@@ -32,7 +32,7 @@ class TestSkiJump:
     # Pytest offers a built-in method to temporarily deactivate test:
     # https://docs.pytest.org/en/stable/how-to/skipping.html#skipping-test-functions
     # ↓ When you start working on `SkiJump.y` remove the line below ↓ (and similar)
-    @pytest.mark.skip(reason="Not implemented yet.")
+    # @pytest.mark.skip(reason="Not implemented yet.")
     # ↑ When you start working on `SkiJump.y` remove the line above ↑ (and similar)
     def test_y(self):
         """Check trajectory."""
