@@ -48,7 +48,6 @@ class TestSkiJump:
         np.testing.assert_allclose(jump_up.y(0.5), 0.25)
         np.testing.assert_allclose(jump_up.y(1.0), 0.0)
 
-    @pytest.mark.skip(reason="Not implemented yet.")
     def test_from_json_file(self, tmp_path):
         """Check file config."""
         # Work here in Step 2!

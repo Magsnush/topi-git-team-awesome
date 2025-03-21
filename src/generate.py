@@ -73,8 +73,9 @@ class SkiJump:
         # The `dataclass` decorator adds, e.g., a constructor with keyword arguments,
         # as is used above for creating the `Hill` object.
         import json
-        with json.loads(path) as f:
+        with open(path, "r") as f:
             data = json.load(f)
+
         return SkiJump(data["v0"], data["alpha"])
 
     def landing(self, hill: Hill) -> float:
