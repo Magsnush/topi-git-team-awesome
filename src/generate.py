@@ -83,12 +83,12 @@ class SkiJump:
         # Work here in Step 1!
         a = np.sin(self.alpha) * self.v0
         b = -0.5 * EARTH_GRAVITY
-        c = Hill.offset
-        d = Hill.slope
+        c = hill.offset
+        d = hill.slope
 
         nominator = np.sqrt(a ** 2 - 2 * a * d + 4 * b * c + d ** 2) - a + d
         denominator = 2 * b
-        return nominator / denominator
+        return nominator / denominator / (np.cos(self.alpha) * self.v0)
 
     def sample(self, hill: Hill, n: int) -> tuple[np.ndarray, np.ndarray]:
         """Discretize trajectory with `n` points until the landing.

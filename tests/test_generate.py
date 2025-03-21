@@ -66,10 +66,13 @@ class TestSkiJump:
         np.testing.assert_allclose(jump.alpha, alpha)
         np.testing.assert_allclose(jump.v0, v0)
 
-    @pytest.mark.skip(reason="Not implemented yet.")
     def test_landing(self):
         """Check landing point."""
         # Work here in Step 2!
         # Design your own test for `SkiJump.landing`!
         # Setup a controlled environment and check against numbers, which you know are correct.
         # If the numbers are non-trivial to obtain, it is a good idea to give a reference.
+        hill = Hill(offset=0.0, slope=0.0)
+        jump = SkiJump(v0=1.0, alpha=0.0)
+        np.testing.assert_allclose(jump.landing(hill), 0.0)
+
