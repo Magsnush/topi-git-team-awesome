@@ -77,7 +77,14 @@ class SkiJump:
     def landing(self, hill: Hill) -> float:
         """Returns the intersection of the trajectory and the hill."""
         # Work here in Step 1!
-        raise NotImplementedError()
+        a = np.sin(self.alpha) * self.v0
+        b = -0.5 * EARTH_GRAVITY
+        c = Hill.offset
+        d = Hill.slope
+
+        nominator = np.sqrt(a ** 2 - 2 * a * d + 4 * b * c + d ** 2) - a + d
+        denominator = 2 * b
+        return nominator / denominator
 
     def sample(self, hill: Hill, n: int) -> tuple[np.ndarray, np.ndarray]:
         """Discretize trajectory with `n` points until the landing.
