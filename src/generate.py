@@ -56,7 +56,7 @@ class SkiJump:
     def y(self, x: float) -> float:
         """Return the trajectory."""
         # Work here in Step 1!
-        return np.sin(self.alpha) * x - 0.5 * EARTH_GRAVITY * x ** 2 / self.v0 ** 2
+        return np.sin(self.alpha) * x - 0.5 * EARTH_GRAVITY * x ** 2
 
     @staticmethod
     # ↑ this is the `staticmethod` decorator, whose documentation can be found
@@ -69,7 +69,10 @@ class SkiJump:
         # Create a `SkiJump` object with the specification given in the file.
         # The `dataclass` decorator adds, e.g., a constructor with keyword arguments,
         # as is used above for creating the `Hill` object.
-        raise NotImplementedError()
+        import json
+        with json.loads(path) as f:
+            data = json.load(f)
+        return SkiJump(data["v0"], data["alpha"])
 
     def landing(self, hill: Hill) -> float:
         """Returns the intersection of the trajectory and the hill."""
