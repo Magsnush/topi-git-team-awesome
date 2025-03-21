@@ -56,7 +56,10 @@ class SkiJump:
     def y(self, x: float) -> float:
         """Return the trajectory."""
         # Work here in Step 1!
-        return np.sin(self.alpha) * x - 0.5 * EARTH_GRAVITY * x ** 2
+        a = np.sin(self.alpha) * self.v0
+        b = -0.5 * EARTH_GRAVITY
+        t = x / (np.cos(self.alpha) * self.v0)
+        return a * t + b * t ** 2
 
     @staticmethod
     # ↑ this is the `staticmethod` decorator, whose documentation can be found
