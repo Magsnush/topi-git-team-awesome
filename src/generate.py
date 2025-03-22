@@ -56,10 +56,10 @@ class SkiJump:
     def y(self, x: float) -> float:
         """Return the trajectory."""
         # Work here in Step 1!
+        t = x / (np.cos(self.alpha) * self.v0)
         a = np.sin(self.alpha) * self.v0
         b = -0.5 * EARTH_GRAVITY
-        t = x / (np.cos(self.alpha) * self.v0)
-        return a * t + b * t ** 2
+        return a * t + b * t * t
 
     @staticmethod
     # ↑ this is the `staticmethod` decorator, whose documentation can be found
@@ -73,6 +73,7 @@ class SkiJump:
         # The `dataclass` decorator adds, e.g., a constructor with keyword arguments,
         # as is used above for creating the `Hill` object.
         import json
+
         with open(path, "r") as f:
             data = json.load(f)
 
@@ -81,14 +82,15 @@ class SkiJump:
     def landing(self, hill: Hill) -> float:
         """Returns the intersection of the trajectory and the hill."""
         # Work here in Step 1!
-        a = np.sin(self.alpha) * self.v0
-        b = -0.5 * EARTH_GRAVITY
+        a = np.sin(self.alpha) * self.v0 / (np.cos(self.alpha) * self.v0)
+        b = -0.5 * EARTH_GRAVITY / (np.cos(self.alpha) * self.v0) ** 2
         c = hill.offset
         d = hill.slope
 
-        nominator = np.sqrt(a ** 2 - 2 * a * d + 4 * b * c + d ** 2) - a + d
-        denominator = 2 * b
-        return nominator / denominator / (np.cos(self.alpha) * self.v0)
+        x = -np.sqrt((a**2 - 2 * a * d + 4 * b * c + d**2)) - a + d
+        x = x / (2 * b)  # Should this be 2*b?
+
+        return x
 
     def sample(self, hill: Hill, n: int) -> tuple[np.ndarray, np.ndarray]:
         """Discretize trajectory with `n` points until the landing.
@@ -111,9 +113,9 @@ class SkiJump:
         # 1. Compute the landing point
         # 2. Generate `n` equally space x points between the landing point and 0. using
         #    [`numpy.linspace`](https://numpy.org/doc/stable/reference/generated/numpy.linspace.html#numpy-linspace)
-        xs = np.array([])
+        xs = np.linspace(0, self.landing(hill), n)
         # 3. Compute the trajectory for each x point
-        ys = np.array([])
+        ys = self.y(xs)
         return xs, ys
 
 
@@ -137,3 +139,4 @@ if __name__ == "__main__":
     # 3. Dump the x points and the y points into the file `args.output` using
     #    [`numpy.savetxt`](https://numpy.org/doc/stable/reference/generated/numpy.savetxt.html#numpy-savetxt).
     #    Make x the first column and y the second column.
+    np.savetxt(args.output, np.stack((my_xs, my_ys), axis=1))
